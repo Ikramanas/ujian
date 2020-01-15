@@ -79,6 +79,9 @@ class Tes_hasil_detail extends Member_Controller {
 		$query = $this->cbt_tes_soal_model->get_datatable($start, $rows, 'soal_detail', $search, $tesuser_id);
 		$iFilteredTotal = $query->num_rows();
 		
+
+		
+		
 		$iTotal= $this->cbt_tes_soal_model->get_datatable_count('soal_detail', $search, $tesuser_id)->row()->hasil;
 	    
 		$output = array(

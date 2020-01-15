@@ -111,7 +111,7 @@ class Cbt_tes_soal_model extends CI_Model{
      * @return     <type>  The datatable.
      */
 	function get_datatable($start, $rows, $kolom, $isi, $tesuser_id){
-		$this->db->where('('.$kolom.' LIKE "%'.$isi.'%" AND tessoal_tesuser_id="'.$tesuser_id.'")')
+		$this->db->where('('.$kolom.' LIKE "%'.$isi.'%" AND tessoal_tesuser_id="'.$tesuser_id.'")')//$this->db->where('('soal_detail.' LIKE "%'.$isi.'%" AND tessoal_tesuser_id="'.$tesuser_id.'")')
                  ->from($this->table)
                  ->join('cbt_soal', 'cbt_tes_soal.tessoal_soal_id = cbt_soal.soal_id')
 				 ->order_by('tessoal_order', 'ASC')

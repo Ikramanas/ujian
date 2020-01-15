@@ -97,12 +97,14 @@
                                 <th>Group</th>
                                 <th class="all">Nama User</th>
                                 <th>Poin</th>
+                                <th>Poin Bonus</th>
                                 <th>Status</th>
                                 <th class="all"></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
+                                <td> </td>
                                 <td> </td>
                                 <td> </td>
                                 <td> </td>
@@ -279,12 +281,13 @@
                         {"bSearchable": false, "bSortable": false},
                         {"bSearchable": false, "bSortable": false},
                         {"bSearchable": false, "bSortable": false},
+    					{"bSearchable": false, "bSortable": false, "sWidth":"50px"},
     					{"bSearchable": false, "bSortable": false, "sWidth":"150px"},
                         {"bSearchable": false, "bSortable": false, "sWidth":"20px"}],
                   "sAjaxSource": "<?php echo site_url().'/'.$url; ?>/get_datatable/",
                   "autoWidth": false,
                   "responsive": true,
-                  "aLengthMenu": [[10, 25, 50, 100, 200, 500], [10, 25, 50, 100, 200, 500]],
+                  "aLengthMenu": [[10, 25, 50, 100, 200, 500, 500], [10, 25, 50, 100, 200, 500, 500]], // experiment
                   "fnServerParams": function ( aoData ) {
                     aoData.push( { "name": "tes", "value": $('#pilih-tes').val()} );
                     aoData.push( { "name": "group", "value": $('#pilih-group').val()} );

@@ -197,7 +197,7 @@ class Tes_hasil extends Member_Controller {
 		$rows = $this->get_rows();
 
 		// run query to get user listing
-		$query = $this->cbt_tes_user_model->get_datatable($start, $rows, $tes_id, $grup_id, $urutkan, $tanggal);
+		$query = $this->cbt_tes_user_model->get_datatable($start, $rows, $tes_id, $grup_id, $urutkan, $tanggal); 
 		$iFilteredTotal = $query->num_rows();
 		
 		$iTotal= $this->cbt_tes_user_model->get_datatable_count($tes_id, $grup_id, $urutkan, $tanggal)->row()->hasil;
@@ -222,6 +222,9 @@ class Tes_hasil extends Member_Controller {
             $record[] = $temp->grup_nama;
             $record[] = '<a href="#" title="Klik untuk mengetahui Detail Tes" onclick="detail_tes(\''.$temp->tesuser_id.'\')"><b>'.stripslashes($temp->user_firstname).'</b></a>';
             $record[] = $temp->nilai;
+			$record[] = $temp->nilai_bonus;// EXPERIMENT_IKRAM
+			
+			
             if($temp->tesuser_status==1){
             	$tanggal = new DateTime();
                 // Cek apakah tes sudah melebihi batas waktu
