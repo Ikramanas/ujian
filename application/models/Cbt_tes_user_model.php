@@ -190,30 +190,14 @@ class Cbt_tes_user_model extends CI_Model{
         }
 
         // $bonus_kesulitan    = 0;
-        // $nilai_soalA        =  (count_by_user_tes() * 10)/100;
-        // $nilai_soalB        =  (count_by_user_tes() * 20)/100;
-        // $nilai_soalC        =  (count_by_user_tes() * 30)/100;
-        // $nilai_soalD        =  (count_by_user_tes() * 40)/100;
-        // $nilai_soalE        =  (count_by_user_tes() * 50)/100;
-        // $nilai_soalF        =  (count_by_user_tes() * 60)/100;
-        // $nilai_soalG        =  (count_by_user_tes() * 70)/100;
-        // $nilai_soalH        =  (count_by_user_tes() * 80)/100;
-        // $nilai_soalI        =  (count_by_user_tes() * 90)/100;
-
-
+        // $nilai_soalA        = 
         // if ($this->db->select('cbt_tes_user.*, cbt_tes.*, cbt_user.*, SUM(`cbt_tes_soal`.`tessoal_nilai`) AS nilai ')
         // ->where('(tesuser_creation_time>="'.$tanggal[0].'" AND tessoal_nilai="'.$tanggal[1].'" '.$sql.' )')
         // ->from($this->table)) {
         //     # code...
         // }
 
-        // $bonus[0];
-        //     if ($nilai_soal <= (count_by_user_tes() * 10)/100 ) {
-        //         $bonus[0] = 55;
-        //     }
-        //     else if ($nilai_soal <= (count_by_user_tes() * 90)/100 ) {
-        //         $bonus[0] = 0;
-        //     }
+
 
 		$this->db->select('cbt_tes_user.*,cbt_user_grup.grup_nama, cbt_tes.*, cbt_user.*, SUM(`cbt_tes_soal`.`tessoal_nilai`) AS nilai, cbt_tes_soal.tes_bonus ')
                  ->where('(tesuser_creation_time>="'.$tanggal[0].'" AND tesuser_creation_time<="'.$tanggal[1].'" '.$sql.' )')

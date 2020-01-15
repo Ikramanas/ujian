@@ -42,12 +42,14 @@ class Tes_hasil_detail extends Member_Controller {
         		$data['tes_user_id'] = $tesuser_id;
         		$data['tes_nama'] = $query_test->tes_nama;
         		$data['tes_mulai'] = $query_testuser->tesuser_creation_time;
-        		$data['user_nama'] = $query_user->user_firstname;
-
+				$data['user_nama'] = $query_user->user_firstname;
+				
+				
+				
         		$nilai = $this->cbt_tes_soal_model->get_nilai($tesuser_id)->row();
         		$data['nilai'] = $nilai->hasil.'  /  '.$query_test->tes_max_score.'  (nilai / nilai maksimal) ';
 
-        		$data['benar'] = ($nilai->total_soal-$nilai->jawaban_salah).'  /  '.$nilai->total_soal.'  (jawaban benar / total soal)';
+        		$data['benar'] = ($nilai->total_soal-$nilai->jawaban_salah).' / '.$nilai->total_soal.'/ '.$nilai->pilihan.'  (jawaban benar / total soal / nilai jawaban perbutir)';
 
         		$this->template->display_admin($this->kelompok.'/tes_hasil_detail_view', 'Hasil Tes Detail', $data);
         	}else{

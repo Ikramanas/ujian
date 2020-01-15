@@ -221,8 +221,26 @@ class Tes_hasil extends Member_Controller {
             $record[] = $temp->tes_nama;
             $record[] = $temp->grup_nama;
             $record[] = '<a href="#" title="Klik untuk mengetahui Detail Tes" onclick="detail_tes(\''.$temp->tesuser_id.'\')"><b>'.stripslashes($temp->user_firstname).'</b></a>';
-            $record[] = $temp->nilai;
-			$record[] = $temp->tes_bonus;// EXPERIMENT_IKRAM
+			$record[] = $temp->nilai;
+
+			// $nilai 					= $this->cbt_tes_soal_model->get_nilai($tesuser_id)->row();
+			// $jumlahPeserta 			= $this->db->count_all('cbt_tes_user')->row();
+
+			// $jumlah_jawaban_salah	= $this->db->select("cbt_tes_soal_jawaban, cbt_tes_soal")
+			// ->where("cbt_tes_soal_jawaban.soaljawaban_selected = 0 AND cbt_tes_soal.tes_duration_time = $temp->tes_duration_time");
+			// $persentage = ($jumlahPeserta / $jumlah_jawaban_salah) * 100 ;
+			// $tes_bonus	= $temp->nilai * $persentage;
+
+			// $nilai = $this->cbt_tes_soal_model->get_nilai($tesuser_id)->row();
+        	// 	$data['pilihan'] = $nilai->pilihan;
+
+
+			$record[] = $temp->tes_bonus;
+			// if ($nilai->soaljawaban_selected ) {
+			// 	# code...
+			// }
+				
+			// $record[] = $temp->tes_bonus * $persentage;// EXPERIMENT_IKRAM
 			
 
             if($temp->tesuser_status==1){
