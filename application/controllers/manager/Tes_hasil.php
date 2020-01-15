@@ -222,9 +222,9 @@ class Tes_hasil extends Member_Controller {
             $record[] = $temp->grup_nama;
             $record[] = '<a href="#" title="Klik untuk mengetahui Detail Tes" onclick="detail_tes(\''.$temp->tesuser_id.'\')"><b>'.stripslashes($temp->user_firstname).'</b></a>';
             $record[] = $temp->nilai;
-			$record[] = $temp->nilai_bonus;// EXPERIMENT_IKRAM
+			$record[] = $temp->tes_bonus;// EXPERIMENT_IKRAM
 			
-			
+
             if($temp->tesuser_status==1){
             	$tanggal = new DateTime();
                 // Cek apakah tes sudah melebihi batas waktu

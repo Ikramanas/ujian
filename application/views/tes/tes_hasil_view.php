@@ -97,7 +97,7 @@
                                 <th>Group</th>
                                 <th class="all">Nama User</th>
                                 <th>Poin</th>
-                                <th>Poin Bonus</th>
+                                <th>Poin+Bonus</th>
                                 <th>Status</th>
                                 <th class="all"></th>
                             </tr>
@@ -111,7 +111,7 @@
                                 <td> </td>
                                 <td> </td>
                                 <td> </td>
-                                <td> </td>
+                                <td>heheheh </td>
                                 <td> </td>
                                 <td> </td>
                             </tr>
