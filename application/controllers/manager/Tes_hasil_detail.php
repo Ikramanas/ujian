@@ -36,20 +36,83 @@ class Tes_hasil_detail extends Member_Controller {
         	if($query_testuser->num_rows()>0){
         		$query_testuser = $query_testuser->row();
 
-        		$query_test = $this->cbt_tes_model->get_by_kolom_limit('tes_id', $query_testuser->tesuser_tes_id, 1)->row();
-        		$query_user = $this->cbt_user_model->get_by_kolom_limit('user_id', $query_testuser->tesuser_user_id, 1)->row();
+				$query_test = $this->cbt_tes_model->get_by_kolom_limit('tes_id', $query_testuser->tesuser_tes_id, 1)->row();
+				
+				$query_user = $this->cbt_user_model->get_by_kolom_limit('user_id', $query_testuser->tesuser_user_id, 1)->row();
 
+				$query = $this->cbt_tes_soal_model->get_datatable(0, 10, 'tessoal_soal_id', '', $tesuser_id)->row();
+
+				// $tes_id	= $this->cbt_tes_user_model->get_by_tes_user_tes_id($tesuser_id);
+				
+				// $nilai_yang_dicari = 1;
+				// $query_nilai_selected = $this->cbt_tes_user_model->get_by_tes_id($tes_id, $nilai_yang_dicari); /////
+
+        		
+				
         		$data['tes_user_id'] = $tesuser_id;
         		$data['tes_nama'] = $query_test->tes_nama;
         		$data['tes_mulai'] = $query_testuser->tesuser_creation_time;
 				$data['user_nama'] = $query_user->user_firstname;
 				
 				
-				
-        		$nilai = $this->cbt_tes_soal_model->get_nilai($tesuser_id)->row();
-        		$data['nilai'] = $nilai->hasil.'  /  '.$query_test->tes_max_score.'  (nilai / nilai maksimal) ';
 
-        		$data['benar'] = ($nilai->total_soal-$nilai->jawaban_salah).' / '.$nilai->total_soal.'/ '.$nilai->pilihan.'  (jawaban benar / total soal / nilai jawaban perbutir)';
+
+				$jumlahPeserta = $this->cbt_tes_soal_model->count_by_kolom('tessoal_soal_id', $query->tessoal_soal_id)->row();
+				$jawaban_benar_peserta = $this->cbt_tes_soal_model->count_nilai_perbutir($query->tessoal_soal_id)->row();
+				// $jawaban_benar = $this->cbt_user_model->count_by_kolom('soaljawaban_selected', $query_nilai_selected);
+				// $jawaban_benar_peserta = $jawaban_benar->soaljawaban_selected;
+
+				// $jumlahPeserta	= $this->db->count_all($query_pengguna);
+				$nilai = $this->cbt_tes_soal_model->get_nilai($tesuser_id)->row();
+				
+				$jawaban_benar = ($nilai->total_soal -  $nilai->jawaban_salah);
+				// $jawab_benar_peserta = $this->cbt_tes_model->get_by_tanggal($tglawal, $tglakhir);
+				// $jawaban_benar_peserta = ;
+				
+				// $nilai_perbutir = $this->cbt_tes_soal_model->count_by_tesuser_dijawab_olehsemuapeserta($tesuser_id, $data['tes_mulai'])->row();
+				
+				
+        		$data['nilai'] = $nilai->hasil.'  /  '.$query_test->tes_max_score.'  (nilai / nilai maksimal) ';
+				
+				
+				
+				$persentage = ($jawaban_benar_peserta->jumlah / $jumlahPeserta->hasil) * 100 ;
+				$jawaban_perbutir = 0;
+				
+				if (round($persentage) < 10) {
+					$jawaban_perbutir = $nilai->nilai_perbutir + 54.00;
+				}
+				if (round($persentage) < 20) {
+					$jawaban_perbutir = $nilai->nilai_perbutir + 48.00;
+				}
+				if (round($persentage) <30) {
+					$jawaban_perbutir = $nilai->nilai_perbutir + 42.00;
+				}
+				if (round($persentage) < 40) {
+					$jawaban_perbutir = $nilai->nilai_perbutir + 36.00;
+				}
+				if (round($persentage) < 50) {
+					$jawaban_perbutir = $nilai->nilai_perbutir + 30.00;
+				}
+				if (round($persentage) < 60) {
+					$jawaban_perbutir = $nilai->nilai_perbutir + 24.00;
+				}
+				if (round($persentage) < 70) {
+					$jawaban_perbutir = $nilai->nilai_perbutir + 18.00;
+				}
+				if (round($persentage) < 80) {
+					$jawaban_perbutir = $nilai->nilai_perbutir + 12.00;
+				}
+				if (round($persentage) < 90) {
+					$jawaban_perbutir = $nilai->nilai_perbutir + 6.00;
+				}
+				if (round($persentage) > 90) {
+					$jawaban_perbutir = $nilai->nilai_perbutir + 0.00;
+				}
+			
+
+
+        		$data['benar'] = $jawaban_benar .' / '.$nilai->total_soal.'/ ' .$jawaban_perbutir.' /'. round($persentage).'%  (jawaban benar / total soal / nilai jawaban perbutir / persentasi)';
 
         		$this->template->display_admin($this->kelompok.'/tes_hasil_detail_view', 'Hasil Tes Detail', $data);
         	}else{

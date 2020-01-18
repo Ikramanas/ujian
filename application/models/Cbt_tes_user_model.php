@@ -77,6 +77,21 @@ class Cbt_tes_user_model extends CI_Model{
         return $this->db->get();
     }
 
+    // function get_by_tes_user_tes_id($tesuser_id){
+    //     $this->db->where('tesuser_tes_id= '.$tesuser_id.'')
+    //              ->from($this->table)
+    //              ->join('cbt_tes', 'cbt_tes_user.tesuser_id = cbt_tes.tes_id');
+    //     return $this->db->get();
+    // }
+    
+    // function get_by_tes_id($tes_id,$nilai_yang_dicari){/////////////////////////
+    //     $this->db->where('tesuser_tes_id="'.$tes_id.'" AND soaljawaban_tessoal_id = tessoal_id' )
+    //              ->from($this->table)
+    //              ->join('cbt_tes_user', 'cbt_tes_soal.tessoal_tesuser_id = cbt_tes_user.tesuser_id')
+    //              ->join('cbt_tes_soal_jawaban', 'cbt_tes_soal_jawaban.soaljawaban_tessoal_id = cbt_tes_soal.tessoal_id');
+    //     return $this->db->get();
+    // }
+
     function get_by_user_tes_limit($user_id, $tes_id){
         $this->db->where('tesuser_user_id="'.$user_id.'" AND tesuser_tes_id="'.$tes_id.'" AND tesuser_status=1')
                  ->from($this->table)

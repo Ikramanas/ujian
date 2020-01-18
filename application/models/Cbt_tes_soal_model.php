@@ -40,6 +40,15 @@ class Cbt_tes_soal_model extends CI_Model{
         return $this->db->get();
     }
 
+
+    // function count_by_tesuser_dijawab_olehsemuapeserta($topik_id){
+    //     $this->db->select('COUNT(*)')
+    //              ->where('tessoal_tesuser_id="'.$tesuser_id.'" AND tessoal_change_time!=""')
+    //              ->join('cbt_tes_soal_jawaban')
+    //              ->from($this->table);
+    //     return $this->db->get();
+    // }
+
     function count_by_tesuser_blum_dijawab($tesuser_id){
         $this->db->select('COUNT(*) AS hasil')
                  ->where('tessoal_tesuser_id="'.$tesuser_id.'" AND tessoal_change_time IS NUlL')
@@ -95,26 +104,23 @@ class Cbt_tes_soal_model extends CI_Model{
         return $this->db->get();
     }
 
-    function get_nilai($tessoal_id){            
-        // $sql = 'SELECT SUM(tessoal_nilai) AS hasil, COUNT(CASE  WHEN tessoal_nilai=0 THEN 1 END) AS jawaban_salah, COUNT(*) AS total_soal FROM cbt_tes_soal WHERE tessoal_tesuser_id="'.$tessoal_id.'"';
-        // return $this->db->query($sql);
-        $isi_pilihan = 1;
-        $sql = $this->db->select(
-            'cbt_tes_soal.tessoal_id, 
-            SUM(cbt_tes_soal.tessoal_nilai) AS hasil, 
-            COUNT(CASE  WHEN cbt_tes_soal.tessoal_nilai=0 THEN 1 END) AS jawaban_salah, 
-            cbt_tes_soal.tes_bonus, 
-            cbt_tes_soal_jawaban.soaljawaban_tessoal_id, 
-            cbt_tes_soal_jawaban.soaljawaban_jawaban_id, 
-            cbt_tes_soal_jawaban.soaljawaban_selected AS pilihan, COUNT(*) AS total_soal')
-        // ->where("cbt_tes_soal_jawaban.soaljawaban_selected", "$isi_pilihan")
-        // ->like('cbt_tes_soal_jawaban.soaljawaban_selected','$isi_pilihan')
-        ->join('cbt_tes_soal_jawaban','cbt_tes_soal.tessoal_id = cbt_tes_soal_jawaban.soaljawaban_jawaban_id')
-        ->from($this->table);
-        return $this->db->get();
+    function get_nilai($tesuser_id){            
+        $sql = 'SELECT tessoal_nilai AS nilai_perbutir, SUM(tessoal_nilai) AS hasil, COUNT(CASE  WHEN tessoal_nilai=0 THEN 1 END) AS jawaban_salah, COUNT(*) AS total_soal FROM cbt_tes_soal WHERE tessoal_tesuser_id="'.$tesuser_id.'"';
+        return $this->db->query($sql);
+    }
 
+    function count_nilai_perbutir($tessoal_soal_id){
+        $this->db->select('COUNT(tessoal_nilai) AS jumlah')
+                 ->where( 'tessoal_soal_id="'.$tessoal_soal_id.'" AND tessoal_nilai > (0.00)')
+                 ->from($this->table); 
+        return $this->db->get();
     }
 	
+    // function count_nilai_perbutir($tessoal_soal_id){
+    //     $this->db->where( 'tessoal_soal_id="'.$tessoal_soal_id.'"', 'tessoal_nilai > 0')
+    //              ->from($this->table);
+    //     return $this->db->get();
+    // }
     /**
      * Datatable untuk hasil tes detail setiap user
      *
