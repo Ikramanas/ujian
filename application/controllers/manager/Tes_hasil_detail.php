@@ -110,10 +110,11 @@ class Tes_hasil_detail extends Member_Controller {
 					$jawaban_perbutir = $nilai->nilai_perbutir + 0.00;
 				}
 			
-
-
-        		$data['benar'] = $jawaban_benar .' / '.$nilai->total_soal.'/ ' .$jawaban_perbutir.' /'. round($persentage).'%  (jawaban benar / total soal / nilai jawaban perbutir / persentasi)';
-
+				
+				
+        		$data['benar'] = $jawaban_benar .' / '.$nilai->total_soal.'/ ' .$jawaban_perbutir.'  (jawaban benar / total soal / nilai jawaban perbutir)';
+				
+				$data['kesulitan'] =  round($persentage).'% orang benar';
         		$this->template->display_admin($this->kelompok.'/tes_hasil_detail_view', 'Hasil Tes Detail', $data);
         	}else{
         		redirect('manager/tes_hasil');	

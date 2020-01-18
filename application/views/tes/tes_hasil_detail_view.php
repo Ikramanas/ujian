@@ -17,9 +17,14 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">Informasi</div>
+                        <!-- <div class="box-tools pull-right mb-8">
+                            <a href="#" onclick="refresh_table()">Refresh Nilai</span></a>
+                        </div> -->
                 </div><!-- /.box-header -->
-
                 <div class="box-body form-horizontal">
+                        
+                    
+
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Nama Tes</label>
@@ -43,6 +48,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
+                         
                             <label class="col-sm-3 control-label">Nilai</label>
                             <div class="col-sm-9">
                                 <input type="text" name="tes-nilai" id="tes-nilai" class="form-control input-sm" value="<?php if(!empty($nilai)){ echo $nilai; } ?>" readonly>
@@ -54,7 +60,24 @@
                                 <input type="text" name="tes-benar" id="tes-benar" class="form-control input-sm" value="<?php if(!empty($benar)){ echo $benar; } ?>" readonly>
                             </div>
                         </div>
+
+
+                        <!-- <div class="form-group">
+                            <label class="col-sm-3 control-label">Kesulitan</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="tes-kesulitan" id="tes-kesulitan" class="form-control input-sm" value="<?php if(!empty($kesulitan)){ echo $kesulitan; } ?>" readonly>
+                            </div>
+                        </div> -->
                     </div>
+                    <!-- <span>
+                    <div class="box-header with-border">
+    					<div class="box-title">Soal dan Jawaban</div>
+                        <div class="box-tools pull-right">
+                            <a href="#" onclick="refresh_table()">Refresh Nilai     </span></a>
+                        </div>
+                    </div> -->
+                    <!-- /.box-header -->
+
                 </div>
             </div>
         </div>
