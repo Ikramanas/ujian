@@ -111,8 +111,9 @@ class Cbt_tes_soal_model extends CI_Model{
 
     function count_nilai_perbutir($tessoal_soal_id){
         $this->db->select('COUNT(tessoal_nilai) AS jumlah')
-                 ->where( 'tessoal_soal_id="'.$tessoal_soal_id.'" AND tessoal_nilai > (0.00)')
-                 ->from($this->table); 
+                 ->where( 'tessoal_id="'.$tessoal_soal_id.'" AND tessoal_nilai > (0.00)')
+                 ->from($this->table);
+        
         return $this->db->get();
     }
 	
@@ -146,5 +147,55 @@ class Cbt_tes_soal_model extends CI_Model{
                  ->join('cbt_soal', 'cbt_tes_soal.tessoal_soal_id = cbt_soal.soal_id')
                  ->from($this->table);
         return $this->db->get();
-	}
+    }
+    
+    public function get_sistem_butir($column, $tessoal_soal_id, $tesuser_id, $tes_max_score )
+    {
+        $jumlahPeserta = $this->count_by_kolom($column, $tessoal_soal_id)->row();
+        
+        $jawaban_benar_peserta = $this->count_nilai_perbutir($tessoal_soal_id )->row();
+        
+        $nilai =  $this->get_nilai($tesuser_id)->row();
+
+        $jawaban_benar = ($nilai->total_soal -  $nilai->jawaban_salah);
+
+        // $data['nilai'] = $nilai->hasil.'  /  '.$tes_max_score.'  (nilai / nilai maksimal) ';
+
+        $persentage = ($jawaban_benar_peserta->jumlah / $jumlahPeserta->hasil) * 100 ;
+       
+        // $jawaban_perbutir = 0;
+        
+				if (round($persentage) < 10) {
+					$jawaban_perbutir = $nilai->nilai_perbutir + 54.00;
+				}
+				if (round($persentage) < 20) {
+					$jawaban_perbutir = $nilai->nilai_perbutir + 48.00;
+				}
+				if (round($persentage) <30) {
+					$jawaban_perbutir = $nilai->nilai_perbutir + 42.00;
+				}
+				if (round($persentage) < 40) {
+					$jawaban_perbutir = $nilai->nilai_perbutir + 36.00;
+				}
+				if (round($persentage) < 50) {
+					$jawaban_perbutir = $nilai->nilai_perbutir + 30.00;
+				}
+				if (round($persentage) < 60) {
+					$jawaban_perbutir = $nilai->nilai_perbutir + 24.00;
+				}
+				if (round($persentage) < 70) {
+					$jawaban_perbutir = $nilai->nilai_perbutir + 18.00;
+				}
+				if (round($persentage) < 80) {
+					$jawaban_perbutir = $nilai->nilai_perbutir + 12.00;
+				}
+				if (round($persentage) < 90) {
+					$jawaban_perbutir = $nilai->nilai_perbutir + 6.00;
+				}
+				if (round($persentage) > 90) {
+					$jawaban_perbutir = $nilai->nilai_perbutir + 0.00;
+                }
+                
+                // return $this->cbt_tes_soal_model;
+    }
 }

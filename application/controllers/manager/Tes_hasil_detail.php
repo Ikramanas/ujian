@@ -56,16 +56,31 @@ class Tes_hasil_detail extends Member_Controller {
 				
 				
 
+/////////////////////////////////////////////////
+				// $jumlahPeserta = $this->cbt_tes_soal_model->count_by_kolom('tessoal_soal_id', $query->tessoal_soal_id)->row();
+				// $jawaban_benar_peserta = $this->cbt_tes_soal_model->count_nilai_perbutir($query->tessoal_soal_id, )->row();
 
-				$jumlahPeserta = $this->cbt_tes_soal_model->count_by_kolom('tessoal_soal_id', $query->tessoal_soal_id)->row();
-				$jawaban_benar_peserta = $this->cbt_tes_soal_model->count_nilai_perbutir($query->tessoal_soal_id)->row();
+
+			
+				$this->cbt_tes_soal_model->get_sistem_butir('tessoal_soal_id',$query->tessoal_soal_id, $tesuser_id,$query_test->tes_max_score);
+
+
 				// $jawaban_benar = $this->cbt_user_model->count_by_kolom('soaljawaban_selected', $query_nilai_selected);
 				// $jawaban_benar_peserta = $jawaban_benar->soaljawaban_selected;
 
 				// $jumlahPeserta	= $this->db->count_all($query_pengguna);
+
+
+
+/////////////////////////////////////////////////////////////
 				$nilai = $this->cbt_tes_soal_model->get_nilai($tesuser_id)->row();
 				
 				$jawaban_benar = ($nilai->total_soal -  $nilai->jawaban_salah);
+/////////////////////////////////////////////////////////////////
+
+
+
+
 				// $jawab_benar_peserta = $this->cbt_tes_model->get_by_tanggal($tglawal, $tglakhir);
 				// $jawaban_benar_peserta = ;
 				
@@ -74,45 +89,43 @@ class Tes_hasil_detail extends Member_Controller {
 				
         		$data['nilai'] = $nilai->hasil.'  /  '.$query_test->tes_max_score.'  (nilai / nilai maksimal) ';
 				
+				// $persentage = ($jawaban_benar_peserta->jumlah / $jumlahPeserta->hasil) * 100 ;
+				// $jawaban_perbutir = 0;
 				
-				
-				$persentage = ($jawaban_benar_peserta->jumlah / $jumlahPeserta->hasil) * 100 ;
-				$jawaban_perbutir = 0;
-				
-				if (round($persentage) < 10) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 54.00;
-				}
-				if (round($persentage) < 20) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 48.00;
-				}
-				if (round($persentage) <30) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 42.00;
-				}
-				if (round($persentage) < 40) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 36.00;
-				}
-				if (round($persentage) < 50) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 30.00;
-				}
-				if (round($persentage) < 60) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 24.00;
-				}
-				if (round($persentage) < 70) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 18.00;
-				}
-				if (round($persentage) < 80) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 12.00;
-				}
-				if (round($persentage) < 90) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 6.00;
-				}
-				if (round($persentage) > 90) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 0.00;
-				}
+				// if (round($persentage) < 10) {
+				// 	$jawaban_perbutir = $nilai->nilai_perbutir + 54.00;
+				// }
+				// if (round($persentage) < 20) {
+				// 	$jawaban_perbutir = $nilai->nilai_perbutir + 48.00;
+				// }
+				// if (round($persentage) <30) {
+				// 	$jawaban_perbutir = $nilai->nilai_perbutir + 42.00;
+				// }
+				// if (round($persentage) < 40) {
+				// 	$jawaban_perbutir = $nilai->nilai_perbutir + 36.00;
+				// }
+				// if (round($persentage) < 50) {
+				// 	$jawaban_perbutir = $nilai->nilai_perbutir + 30.00;
+				// }
+				// if (round($persentage) < 60) {
+				// 	$jawaban_perbutir = $nilai->nilai_perbutir + 24.00;
+				// }
+				// if (round($persentage) < 70) {
+				// 	$jawaban_perbutir = $nilai->nilai_perbutir + 18.00;
+				// }
+				// if (round($persentage) < 80) {
+				// 	$jawaban_perbutir = $nilai->nilai_perbutir + 12.00;
+				// }
+				// if (round($persentage) < 90) {
+				// 	$jawaban_perbutir = $nilai->nilai_perbutir + 6.00;
+				// }
+				// if (round($persentage) > 90) {
+				// 	$jawaban_perbutir = $nilai->nilai_perbutir + 0.00;
+				// }
 			
 				
 				
-        		$data['benar'] = $jawaban_benar .' / '.$nilai->total_soal.'/ ' .$jawaban_perbutir.'  (jawaban benar / total soal / nilai jawaban perbutir)';
+        		$data['benar'] = $jawaban_benar .' / '.$nilai->total_soal.'/ ' .$jawaban_perbutir.'  (jawaban benar / total soal / nilai jawaban perbutir)';	
 				
 				$data['kesulitan'] =  round($persentage).'% orang benar';
         		$this->template->display_admin($this->kelompok.'/tes_hasil_detail_view', 'Hasil Tes Detail', $data);
