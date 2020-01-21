@@ -23,10 +23,13 @@ class Tes_kerjakan extends Tes_Controller {
 		$this->load->model('cbt_soal_model');
 		$this->load->model('cbt_jawaban_model');
 		$this->load->model('cbt_tes_soal_model');
-		$this->load->model('cbt_tes_soal_jawaban_model');
+        $this->load->model('cbt_tes_soal_jawaban_model');
+        
 
         $this->username = $this->access_tes->get_username();
         $this->user_id = $this->cbt_user_model->get_by_kolom_limit('user_name', $this->username, 1)->row()->user_id;
+
+        // $this->output->enable_profiler(TRUE);
 	}
     
     public function index($tes_id=null){
@@ -91,7 +94,8 @@ class Tes_kerjakan extends Tes_Controller {
                     $data['tes_soal_id'] = $tessoal->tessoal_id;
                     $data['tes_soal_nomor'] = $tessoal->tessoal_order;
 
-                    
+
+                   
                     $this->template->display_tes($this->kelompok.'/tes_kerjakan_view', 'Kerjakan Tes', $data);
                 }
             }else{
@@ -140,6 +144,8 @@ class Tes_kerjakan extends Tes_Controller {
     function simpan_jawaban(){
         $this->load->library('form_validation');
         
+        // $this->output->enable_profiler(TRUE);
+        
         $this->form_validation->set_rules('tes-id', 'Tes','required|strip_tags');
         $this->form_validation->set_rules('tes-user-id', 'Tes User','required|strip_tags');
         $this->form_validation->set_rules('tes-soal-id', 'Soal','required|strip_tags');
@@ -174,6 +180,7 @@ class Tes_kerjakan extends Tes_Controller {
                     // Memulai transaction mysql
                     $this->db->trans_start();
 
+                    
                     // Mengecek jenis soal
                     if($query_soal->soal_tipe==1){
                         // Mendapatkan data tes
@@ -192,61 +199,61 @@ class Tes_kerjakan extends Tes_Controller {
                         // Mengupdate score, change time jika pilihan benar
                         if($query_jawaban->jawaban_benar==1){
                             
-                            
-                            // PanggilNilaiPerbutir();
-                            
-                            
-                            
-                            //MEMANGGIL JUMLAH PESERTA YANG BENAR DAN JUMLAH JAWABAN BENAR DARI SEMUA
-                            
-                            // $jumlah_total_peserta= $this->cbt_tes_soal_model->count_by_kolom($tes_soal_id, $tes_id)->row();
-                            // $jumlah_peserta_benar= $this->cbt_tes_soal_model->count_nilai_perbutir($tes_soal_id, $tes_id)->row();
-                            
-                            $jumlah_peserta_benar= $this->cbt_tes_soal_model->get_by_soal_id($tes_soal_id, $tes_id)->row();
-                            $jumlah_total_peserta= $this->cbt_tes_soal_model->get_by_jumlah_soal_id($tes_soal_id, $tes_id)->row();
     
-    
-                            $persentage = ($jumlah_total_peserta->hasil / $jumlah_peserta_benar->jumlah) * 100 ;
-                            
-    
-                            $jawaban_perbutir = $query_tes->tes_score_right;
-                
-                            // if (round($persentage) < 10) {
-                            //     $jawaban_perbutir = $query_tes->tes_score_right + 54.00;
-                            // }
-                            // if (round($persentage) < 20) {
-                            //     $jawaban_perbutir = $query_tes->tes_score_right + 48.00;
-                            // }
-                            // if (round($persentage) <30) {
-                            //     $jawaban_perbutir = $query_tes->tes_score_right + 42.00;
-                            // }
-                            // if (round($persentage) < 40) {
-                            //     $jawaban_perbutir = $query_tes->tes_score_right + 36.00;
-                            // }
-                            // if (round($persentage) < 50) {
-                            //     $jawaban_perbutir = $query_tes->tes_score_right + 30.00;
-                            // }
-                            // if (round($persentage) < 60) {
-                            //     $jawaban_perbutir = $query_tes->tes_score_right +24.00;
-                            // }
-                            // if (round($persentage) < 70) {
-                            //     $jawaban_perbutir = $query_tes->tes_score_right + 18.00;
-                            // }
-                            // if (round($persentage) < 80) {
-                            //     $jawaban_perbutir = $query_tes->tes_score_right + 12.00;
-                            // }
-                            // if (round($persentage) < 90) {
-                            //     $jawaban_perbutir = $query_tes->tes_score_right + 6.00;
-                            // }
-                            // if (round($persentage) > 90) {
-                            //     $jawaban_perbutir = 0.00;
-                            // }
+                            //////////////////////////////////////////////////////////////////////////////////////
 
-                            $data_tes_soal['tessoal_nilai'] =  $jawaban_perbutir + $persentage ;
+
+                            ///////////////////////////////////////////////////////////////////
+                            $tessoal_soal_id = $this->cbt_tes_user_model->get_by_soal_id($tes_soal_id, $tes_id)->row();
+
+                            $jumlah_total_peserta= $this->cbt_tes_user_model->get_by_jumlahPeserta_soal_id($tessoal_soal_id->soal_id, $tes_id)->row();
+
+                            $jumlah_peserta_benar= $this->cbt_tes_user_model->get_by_soalBenar_id($tessoal_soal_id->soal_id, $tes_id)->row();
+    
+    
+                            $persentage = ($jumlah_total_peserta->total_peserta / $jumlah_peserta_benar->jumlah_benar) * 100 ;
+
+                        
+                            $jawaban_perbutir = 0;
+                
+                            if ($persentage < 10) {
+                                $jawaban_perbutir = 54.00;
+                            }
+                            if ($persentage < 20) {
+                                $jawaban_perbutir = 48.00;
+                            }
+                            if ($persentage <30) {
+                                $jawaban_perbutir = 42.00;
+                            }
+                            if ($persentage < 40) {
+                                $jawaban_perbutir = 36.00;
+                            }
+                            if ($persentage < 50) {
+                                $jawaban_perbutir = 30.00;
+                            }
+                            if ($persentage < 60) {
+                                $jawaban_perbutir = 24.00;
+                            }
+                            if ($persentage < 70) {
+                                $jawaban_perbutir = 18.00;
+                            }
+                            if ($persentage < 80) {
+                                $jawaban_perbutir = 12.00;
+                            }
+                            if ($persentage < 90) {
+                                $jawaban_perbutir = 6.00;
+                            }
+                            if ($persentage > 90) {
+                                $jawaban_perbutir = 0.00;
+                            }
+
+                            $data_tes_soal['tessoal_nilai'] =  $query_tes->tes_score_right;
+                            $data_tes_soal['tessoal_bonus'] =  $query_tes->tes_score_right + $jawaban_perbutir;
                         }else{
                             $data_tes_soal['tessoal_nilai'] = $query_tes->tes_score_wrong;
+                            $data_tes_soal['tessoal_bonus'] = $query_tes->tes_score_wrong;
                         }
-
+                        
                         $this->cbt_tes_soal_model->update('tessoal_id', $tes_soal_id, $data_tes_soal);
 
                         $status['status'] = 1;
@@ -570,60 +577,17 @@ class Tes_kerjakan extends Tes_Controller {
         return $data;
     }
 
-    public function PanggilNilaiPerbutir()
-    {
-        $query = $this->cbt_tes_soal_model->get_datatable(0, 10, 'tessoal_soal_id', '', $query_tes->tesuser_id)->row();
-        $query_tes = $this->cbt_tes_user_model->get_by_user_tes_limit($this->user_id, $tes_id, 1)->row();
+    // public function sistem_butir()
+    // {
+    //     $tessoal_soal_id = $this->cbt_tes_user_model->get_by_soal_id($tes_soal_id, $tes_id)->row();
 
-                $jumlahPeserta = $this->cbt_tes_soal_model->count_by_kolom('tessoal_soal_id', $query->tes_soal_id)->row();
-                
-                $jawaban_benar_peserta = $this->cbt_tes_soal_model->count_nilai_perbutir($tes_soal_id, $tes_id)->row();
-                
-                // $jawaban_benar = ($nilai->total_soal -  $nilai->jawaban_salah);
+    //     $jumlah_total_peserta= $this->cbt_tes_user_model->get_by_jumlahPeserta_soal_id($tessoal_soal_id->soal_id, $tes_id)->row();
 
-                $data['nilai'] = $nilai->hasil.'  /  '.$query_test->tes_max_score.'  (nilai / nilai maksimal) ';
-				
-				$persentage = ($jawaban_benar_peserta->jumlah / $jumlahPeserta->hasil) * 100 ;
-				$jawaban_perbutir = 0;
-				
-				if (round($persentage) < 10) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 54.00;
-				}
-				if (round($persentage) < 20) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 48.00;
-				}
-				if (round($persentage) <30) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 42.00;
-				}
-				if (round($persentage) < 40) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 36.00;
-				}
-				if (round($persentage) < 50) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 30.00;
-				}
-				if (round($persentage) < 60) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 24.00;
-				}
-				if (round($persentage) < 70) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 18.00;
-				}
-				if (round($persentage) < 80) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 12.00;
-				}
-				if (round($persentage) < 90) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 6.00;
-				}
-				if (round($persentage) > 90) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 0.00;
-				}
-			
-				
-				
-        		$benar = $jawaban_benar .' / '.$nilai->total_soal.'/ ' .$jawaban_perbutir.'  (jawaban benar / total soal / nilai jawaban perbutir)';
-				
-				$kesulitan =  round($persentage).'% orang benar';
-        		
-    }
+    //     $jumlah_peserta_benar= $this->cbt_tes_user_model->get_by_soalBenar_id($tessoal_soal_id->soal_id, $tes_id)->row();
+
+    //     return ;
+        
+    // }
 
     function update_status_audio($tessoal_id=null){
         $data['data'] = 0;

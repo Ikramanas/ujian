@@ -113,7 +113,41 @@ class Cbt_tes_user_model extends CI_Model{
                  ->from($this->table);
         return $this->db->get();
     }
-	
+
+    function get_by_soal_id($tes_soal_id, $tes_id)//untuk mengetahui berapa jumlah peserta yang menjawab benar
+    {
+        $this->db->select('tessoal_soal_id AS soal_id')
+                 ->where('tessoal_id="'.$tes_soal_id.'" AND tes_id = "'.$tes_id.'" ')
+                //  ->join('cbt_soal', 'cbt_tes_soal.tessoal_soal_id = cbt_soal.soal_id')
+                 ->join('cbt_tes_soal', 'cbt_tes_soal.tessoal_tesuser_id = cbt_tes_user.tesuser_id')
+                 ->join('cbt_tes', 'cbt_tes_user.tesuser_tes_id = cbt_tes.tes_id')
+                 ->from($this->table);
+        return $this->db->get();
+
+    }
+
+    function get_by_soalBenar_id($tessoal_soal_id, $tes_id)//untuk mengetahui berapa jumlah peserta yang menjawab benar
+    {
+        $this->db->select('tessoal_nilai, COUNT("tessoal_nilai") AS jumlah_benar')
+                 ->where('tessoal_soal_id="'.$tessoal_soal_id.'" AND tesuser_tes_id = "'.$tes_id.'" AND tessoal_nilai > (0.00)')
+                 ->join('cbt_tes_soal', 'cbt_tes_soal.tessoal_tesuser_id = cbt_tes_user.tesuser_id')
+                 ->from($this->table);
+        return $this->db->get();
+
+    }
+
+    function get_by_jumlahPeserta_soal_id($tessoal_soal_id, $tes_id)//untuk mengetahui jumlah totoal peserta dalam suatu tes
+    {
+        $this->db->select('COUNT(tesuser_user_id) AS total_peserta')
+                 ->where('tessoal_soal_id="'.$tessoal_soal_id.'" AND tesuser_tes_id="'.$tes_id.'"')
+                 ->join('cbt_tes_soal', 'cbt_tes_soal.tessoal_tesuser_id = cbt_tes_user.tesuser_id')
+                 ->from($this->table);
+        return $this->db->get();
+    }
+    
+    
+
+
     function get_by_user_tes($user_id, $tes_id){
         $this->db->where('tesuser_user_id="'.$user_id.'" AND tesuser_tes_id="'.$tes_id.'"')
                  ->from($this->table)

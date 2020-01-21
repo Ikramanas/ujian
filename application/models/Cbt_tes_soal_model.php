@@ -97,35 +97,50 @@ class Cbt_tes_soal_model extends CI_Model{
         return $this->db->get();
     }
 
-    function get_by_soal_id($tes_soal_id, $tes_id)//untuk mengetahui berapa jumlah peserta yang menjawab benar
-    {
-        // $this->db->select('tessoal_tesuser_id, COUNT("tessoal_tesuser_id") AS jumlah_benar, tessoal_nilai, COUNT("tessoal_nilai") AS jumlah_jawaban_benar FROM `cbt_tes_soal`,`cbt_tes_soal_jawaban`,`cbt_tes`,cbt_user, cbt_soal where soal_id = '.$tes_soal_id.' and tessoal_id=tessoal_soal_id and tes_id = '.$tes_id.' and tessoal_nilai > 0.00');
-        // return $this->db->get();
+    // function get_by_soal_id($tes_soal_id, $tes_id)//untuk mengetahui berapa jumlah peserta yang menjawab benar
+    // {
+    //     // $this->db->select('tessoal_tesuser_id, COUNT("tessoal_tesuser_id") AS jumlah_benar, tessoal_nilai, COUNT("tessoal_nilai") AS jumlah_jawaban_benar FROM `cbt_tes_soal`,`cbt_tes_soal_jawaban`,`cbt_tes`,cbt_user, cbt_soal where soal_id = '.$tes_soal_id.' and tessoal_id=tessoal_soal_id and tes_id = '.$tes_id.' and tessoal_nilai > 0.00');
+    //     // return $this->db->get();
 
-        $this->db->select('tessoal_tesuser_id, COUNT("tessoal_tesuser_id") AS jumlah_benar, tessoal_nilai, COUNT("tessoal_nilai") AS jumlah_jawaban_benar')
-                 ->where('tessoal_soal_id="'.$tes_soal_id.'" AND tes_id = "'.$tes_id.'" AND tessoal_nilai > 0.00')
-                 ->join('cbt_soal', 'cbt_tes_soal.tessoal_soal_id = cbt_soal.soal_id')
-                 ->join('cbt_tes_user', 'cbt_tes_soal.tessoal_tesuser_id = cbt_tes_user.tesuser_id')
-                 ->join('cbt_tes', 'cbt_tes_user.tesuser_tes_id = cbt_tes.tes_id')
-                 ->from($this->table)
-                 ->limit($limit);
-        return $this->db->get();
+    //     $this->db->select('tessoal_nilai, tessoal_soal_id')
+    //              ->where('tessoal_id="'.$tes_soal_id.'" AND tes_id = "'.$tes_id.'" ')
+    //              ->join('cbt_soal', 'cbt_tes_soal.tessoal_soal_id = cbt_soal.soal_id')
+    //              ->join('cbt_tes_user', 'cbt_tes_soal.tessoal_tesuser_id = cbt_tes_user.tesuser_id')
+    //              ->join('cbt_tes', 'cbt_tes_user.tesuser_tes_id = cbt_tes.tes_id')
+    //              ->from($this->table)
+    //              ->limit($limit);
+    //     return $this->db->get();
 
-    }
-    function get_by_jumlah_soal_id($tes_soal_id, $tes_id)//untuk mengetahui jumlah totoal peserta dalam suatu tes
-    {
-        // $this->db->select('COUNT("tessoal_tesuser_id") AS jumlah_user FROM `cbt_tes_soal`,`cbt_tes_soal_jawaban`,`cbt_tes`,cbt_user, cbt_soal where soal_id = '.$tes_soal_id.' and tessoal_id = tessoal_soal_id and tes_id = '.$tes_id.' ');
-        // return $this->db->get();
+    // }
+    // function get_by_soalBenar_id($tessoal_soal_id, $tes_id)//untuk mengetahui berapa jumlah peserta yang menjawab benar
+    // {
+    //     // $this->db->select('tessoal_tesuser_id, COUNT("tessoal_tesuser_id") AS jumlah_benar, tessoal_nilai, COUNT("tessoal_nilai") AS jumlah_jawaban_benar FROM `cbt_tes_soal`,`cbt_tes_soal_jawaban`,`cbt_tes`,cbt_user, cbt_soal where soal_id = '.$tes_soal_id.' and tessoal_id=tessoal_soal_id and tes_id = '.$tes_id.' and tessoal_nilai > 0.00');
+    //     // return $this->db->get();
 
-        $this->db->select('tessoal_tesuser_id, COUNT("tessoal_tesuser_id") AS jumlah_benar, tessoal_nilai, COUNT("tessoal_nilai") AS jumlah_jawaban_benar')
-                 ->where('tessoal_soal_id="'.$tes_soal_id.'" AND tes_id = '.$tes_id.'')
-                 ->join('cbt_soal', 'cbt_tes_soal.tessoal_soal_id = cbt_soal.soal_id')
-                 ->join('cbt_tes_user', 'cbt_tes_soal.tessoal_tesuser_id = cbt_tes_user.tesuser_id')
-                 ->join('cbt_tes', 'cbt_tes_user.tesuser_tes_id = cbt_tes.tes_id')
-                 ->from($this->table)
-                 ->limit($limit);
-        return $this->db->get();
-    }
+    //     $this->db->select('tessoal_nilai, COUNT("tessoal_nilai") AS jumlah_benar, tessoal_soal_id')
+    //              ->where('tessoal_soal_id="'.$tessoal_soal_id.'" AND tes_id = "'.$tes_id.'" AND tessoal_nilai > 0.00')
+    //              ->join('cbt_soal', 'cbt_tes_soal.tessoal_soal_id = cbt_soal.soal_id')
+    //              ->join('cbt_tes_user', 'cbt_tes_soal.tessoal_tesuser_id = cbt_tes_user.tesuser_id')
+    //              ->join('cbt_tes', 'cbt_tes_user.tesuser_tes_id = cbt_tes.tes_id')
+    //              ->from($this->table)
+    //              ->limit($limit);
+    //     return $this->db->get();
+
+    // }
+    // function get_by_jumlahPeserta_soal_id($tes_soal_id, $tes_id)//untuk mengetahui jumlah totoal peserta dalam suatu tes
+    // {
+    //     // $this->db->select('COUNT("tessoal_tesuser_id") AS jumlah_user FROM `cbt_tes_soal`,`cbt_tes_soal_jawaban`,`cbt_tes`,cbt_user, cbt_soal where soal_id = '.$tes_soal_id.' and tessoal_id = tessoal_soal_id and tes_id = '.$tes_id.' ');
+    //     // return $this->db->get();
+
+    //     $this->db->select('COUNT("tessoal_tesuser_id") AS jumlah_peserta,')
+    //              ->where('tessoal_soal_id="'.$tes_soal_id.'" AND tes_id = '.$tes_id.'')
+    //             //  ->join('cbt_soal', 'cbt_tes_soal.tessoal_soal_id = cbt_soal.soal_id')
+    //              ->join('cbt_tes_user', 'cbt_tes_soal.tessoal_tesuser_id = cbt_tes_user.tesuser_id')
+    //              ->join('cbt_tes', 'cbt_tes_user.tesuser_tes_id = cbt_tes.tes_id')
+    //              ->from($this->table)
+    //              ->limit($limit);
+    //     return $this->db->get();
+    // }
 	
 	function get_by_kolom_limit($kolom, $isi, $limit){
         $this->db->where($kolom, $isi)
@@ -181,53 +196,53 @@ class Cbt_tes_soal_model extends CI_Model{
         return $this->db->get();
     }
     
-    public function get_sistem_butir($column, $tessoal_soal_id, $tesuser_id, $tes_max_score )
-    {
-        $jumlahPeserta = $this->count_by_kolom($column, $tessoal_soal_id)->row();
+    // public function get_sistem_butir($column, $tessoal_soal_id, $tesuser_id, $tes_max_score )
+    // {
+    //     $jumlahPeserta = $this->count_by_kolom($column, $tessoal_soal_id)->row();
         
-        $jawaban_benar_peserta = $this->count_nilai_perbutir($tessoal_soal_id )->row();
+    //     $jawaban_benar_peserta = $this->count_nilai_perbutir($tessoal_soal_id )->row();
         
-        $nilai =  $this->get_nilai($tesuser_id)->row();
+    //     $nilai =  $this->get_nilai($tesuser_id)->row();
 
-        $jawaban_benar = ($nilai->total_soal -  $nilai->jawaban_salah);
+    //     $jawaban_benar = ($nilai->total_soal -  $nilai->jawaban_salah);
 
-        // $data['nilai'] = $nilai->hasil.'  /  '.$tes_max_score.'  (nilai / nilai maksimal) ';
+    //     // $data['nilai'] = $nilai->hasil.'  /  '.$tes_max_score.'  (nilai / nilai maksimal) ';
 
-        $persentage = ($jawaban_benar_peserta->jumlah / $jumlahPeserta->hasil) * 100 ;
+    //     $persentage = ($jawaban_benar_peserta->jumlah / $jumlahPeserta->hasil) * 100 ;
        
-        // $jawaban_perbutir = 0;
+    //     // $jawaban_perbutir = 0;
         
-				if (round($persentage) < 10) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 54.00;
-				}
-				if (round($persentage) < 20) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 48.00;
-				}
-				if (round($persentage) <30) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 42.00;
-				}
-				if (round($persentage) < 40) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 36.00;
-				}
-				if (round($persentage) < 50) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 30.00;
-				}
-				if (round($persentage) < 60) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 24.00;
-				}
-				if (round($persentage) < 70) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 18.00;
-				}
-				if (round($persentage) < 80) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 12.00;
-				}
-				if (round($persentage) < 90) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 6.00;
-				}
-				if (round($persentage) > 90) {
-					$jawaban_perbutir = $nilai->nilai_perbutir + 0.00;
-                }
+	// 			if (round($persentage) < 10) {
+	// 				$jawaban_perbutir = $nilai->nilai_perbutir + 54.00;
+	// 			}
+	// 			if (round($persentage) < 20) {
+	// 				$jawaban_perbutir = $nilai->nilai_perbutir + 48.00;
+	// 			}
+	// 			if (round($persentage) <30) {
+	// 				$jawaban_perbutir = $nilai->nilai_perbutir + 42.00;
+	// 			}
+	// 			if (round($persentage) < 40) {
+	// 				$jawaban_perbutir = $nilai->nilai_perbutir + 36.00;
+	// 			}
+	// 			if (round($persentage) < 50) {
+	// 				$jawaban_perbutir = $nilai->nilai_perbutir + 30.00;
+	// 			}
+	// 			if (round($persentage) < 60) {
+	// 				$jawaban_perbutir = $nilai->nilai_perbutir + 24.00;
+	// 			}
+	// 			if (round($persentage) < 70) {
+	// 				$jawaban_perbutir = $nilai->nilai_perbutir + 18.00;
+	// 			}
+	// 			if (round($persentage) < 80) {
+	// 				$jawaban_perbutir = $nilai->nilai_perbutir + 12.00;
+	// 			}
+	// 			if (round($persentage) < 90) {
+	// 				$jawaban_perbutir = $nilai->nilai_perbutir + 6.00;
+	// 			}
+	// 			if (round($persentage) > 90) {
+	// 				$jawaban_perbutir = $nilai->nilai_perbutir + 0.00;
+    //             }
                 
-                // return $this->cbt_tes_soal_model;
-    }
+    //             // return $this->cbt_tes_soal_model;
+    // }
 }
