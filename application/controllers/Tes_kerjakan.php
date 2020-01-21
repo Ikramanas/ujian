@@ -191,11 +191,58 @@ class Tes_kerjakan extends Tes_Controller {
 
                         // Mengupdate score, change time jika pilihan benar
                         if($query_jawaban->jawaban_benar==1){
-
+                            
                             
                             // PanggilNilaiPerbutir();
+                            
+                            
+                            
+                            //MEMANGGIL JUMLAH PESERTA YANG BENAR DAN JUMLAH JAWABAN BENAR DARI SEMUA
+                            
+                            // $jumlah_total_peserta= $this->cbt_tes_soal_model->count_by_kolom($tes_soal_id, $tes_id)->row();
+                            // $jumlah_peserta_benar= $this->cbt_tes_soal_model->count_nilai_perbutir($tes_soal_id, $tes_id)->row();
+                            
+                            $jumlah_peserta_benar= $this->cbt_tes_soal_model->get_by_soal_id($tes_soal_id, $tes_id)->row();
+                            $jumlah_total_peserta= $this->cbt_tes_soal_model->get_by_jumlah_soal_id($tes_soal_id, $tes_id)->row();
+    
+    
+                            $persentage = ($jumlah_total_peserta->hasil / $jumlah_peserta_benar->jumlah) * 100 ;
+                            
+    
+                            $jawaban_perbutir = $query_tes->tes_score_right;
+                
+                            // if (round($persentage) < 10) {
+                            //     $jawaban_perbutir = $query_tes->tes_score_right + 54.00;
+                            // }
+                            // if (round($persentage) < 20) {
+                            //     $jawaban_perbutir = $query_tes->tes_score_right + 48.00;
+                            // }
+                            // if (round($persentage) <30) {
+                            //     $jawaban_perbutir = $query_tes->tes_score_right + 42.00;
+                            // }
+                            // if (round($persentage) < 40) {
+                            //     $jawaban_perbutir = $query_tes->tes_score_right + 36.00;
+                            // }
+                            // if (round($persentage) < 50) {
+                            //     $jawaban_perbutir = $query_tes->tes_score_right + 30.00;
+                            // }
+                            // if (round($persentage) < 60) {
+                            //     $jawaban_perbutir = $query_tes->tes_score_right +24.00;
+                            // }
+                            // if (round($persentage) < 70) {
+                            //     $jawaban_perbutir = $query_tes->tes_score_right + 18.00;
+                            // }
+                            // if (round($persentage) < 80) {
+                            //     $jawaban_perbutir = $query_tes->tes_score_right + 12.00;
+                            // }
+                            // if (round($persentage) < 90) {
+                            //     $jawaban_perbutir = $query_tes->tes_score_right + 6.00;
+                            // }
+                            // if (round($persentage) > 90) {
+                            //     $jawaban_perbutir = 0.00;
+                            // }
 
-                            $data_tes_soal['tessoal_nilai'] = $query_tes->tes_score_right;
+                            $data_tes_soal['tessoal_nilai'] =  $jawaban_perbutir + $persentage ;
                         }else{
                             $data_tes_soal['tessoal_nilai'] = $query_tes->tes_score_wrong;
                         }

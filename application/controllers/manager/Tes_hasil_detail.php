@@ -43,33 +43,20 @@ class Tes_hasil_detail extends Member_Controller {
 				$query = $this->cbt_tes_soal_model->get_datatable(0, 10, 'tessoal_soal_id', '', $tesuser_id)->row();
 
 				// $tes_id	= $this->cbt_tes_user_model->get_by_tes_user_tes_id($tesuser_id);
-				
 				// $nilai_yang_dicari = 1;
 				// $query_nilai_selected = $this->cbt_tes_user_model->get_by_tes_id($tes_id, $nilai_yang_dicari); /////
-
-        		
-				
         		$data['tes_user_id'] = $tesuser_id;
         		$data['tes_nama'] = $query_test->tes_nama;
         		$data['tes_mulai'] = $query_testuser->tesuser_creation_time;
 				$data['user_nama'] = $query_user->user_firstname;
-				
-				
 
-/////////////////////////////////////////////////
 				// $jumlahPeserta = $this->cbt_tes_soal_model->count_by_kolom('tessoal_soal_id', $query->tessoal_soal_id)->row();
 				// $jawaban_benar_peserta = $this->cbt_tes_soal_model->count_nilai_perbutir($query->tessoal_soal_id, )->row();
-
-
-			
-				$this->cbt_tes_soal_model->get_sistem_butir('tessoal_soal_id',$query->tessoal_soal_id, $tesuser_id,$query_test->tes_max_score);
-
-
+				// $this->cbt_tes_soal_model->get_sistem_butir('tessoal_soal_id',$query->tessoal_soal_id, $tesuser_id,$query_test->tes_max_score);
 				// $jawaban_benar = $this->cbt_user_model->count_by_kolom('soaljawaban_selected', $query_nilai_selected);
 				// $jawaban_benar_peserta = $jawaban_benar->soaljawaban_selected;
 
 				// $jumlahPeserta	= $this->db->count_all($query_pengguna);
-
 
 
 /////////////////////////////////////////////////////////////
@@ -87,7 +74,7 @@ class Tes_hasil_detail extends Member_Controller {
 				// $nilai_perbutir = $this->cbt_tes_soal_model->count_by_tesuser_dijawab_olehsemuapeserta($tesuser_id, $data['tes_mulai'])->row();
 				
 				
-        		$data['nilai'] = $nilai->hasil.'  /  '.$query_test->tes_max_score.'  (nilai / nilai maksimal) ';
+        		$data['nilai'] = $nilai->hasil.'  /  '.$query_test->tes_max_score.' / '.$nilai->nilai_perbutir.'  (nilai / nilai maksimal/nilai persoal) ';
 				
 				// $persentage = ($jawaban_benar_peserta->jumlah / $jumlahPeserta->hasil) * 100 ;
 				// $jawaban_perbutir = 0;
@@ -125,9 +112,9 @@ class Tes_hasil_detail extends Member_Controller {
 			
 				
 				
-        		$data['benar'] = $jawaban_benar .' / '.$nilai->total_soal.'/ ' .$jawaban_perbutir.'  (jawaban benar / total soal / nilai jawaban perbutir)';	
+        		$data['benar'] = $jawaban_benar .' / '.$nilai->total_soal.'/ ' .null.'  (jawaban benar / total soal)';	
 				
-				$data['kesulitan'] =  round($persentage).'% orang benar';
+				// $data['kesulitan'] =  round($persentage).'% orang benar';
         		$this->template->display_admin($this->kelompok.'/tes_hasil_detail_view', 'Hasil Tes Detail', $data);
         	}else{
         		redirect('manager/tes_hasil');	

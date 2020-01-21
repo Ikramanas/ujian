@@ -96,6 +96,36 @@ class Cbt_tes_soal_model extends CI_Model{
                  ->limit($limit);
         return $this->db->get();
     }
+
+    function get_by_soal_id($tes_soal_id, $tes_id)//untuk mengetahui berapa jumlah peserta yang menjawab benar
+    {
+        // $this->db->select('tessoal_tesuser_id, COUNT("tessoal_tesuser_id") AS jumlah_benar, tessoal_nilai, COUNT("tessoal_nilai") AS jumlah_jawaban_benar FROM `cbt_tes_soal`,`cbt_tes_soal_jawaban`,`cbt_tes`,cbt_user, cbt_soal where soal_id = '.$tes_soal_id.' and tessoal_id=tessoal_soal_id and tes_id = '.$tes_id.' and tessoal_nilai > 0.00');
+        // return $this->db->get();
+
+        $this->db->select('tessoal_tesuser_id, COUNT("tessoal_tesuser_id") AS jumlah_benar, tessoal_nilai, COUNT("tessoal_nilai") AS jumlah_jawaban_benar')
+                 ->where('tessoal_soal_id="'.$tes_soal_id.'" AND tes_id = "'.$tes_id.'" AND tessoal_nilai > 0.00')
+                 ->join('cbt_soal', 'cbt_tes_soal.tessoal_soal_id = cbt_soal.soal_id')
+                 ->join('cbt_tes_user', 'cbt_tes_soal.tessoal_tesuser_id = cbt_tes_user.tesuser_id')
+                 ->join('cbt_tes', 'cbt_tes_user.tesuser_tes_id = cbt_tes.tes_id')
+                 ->from($this->table)
+                 ->limit($limit);
+        return $this->db->get();
+
+    }
+    function get_by_jumlah_soal_id($tes_soal_id, $tes_id)//untuk mengetahui jumlah totoal peserta dalam suatu tes
+    {
+        // $this->db->select('COUNT("tessoal_tesuser_id") AS jumlah_user FROM `cbt_tes_soal`,`cbt_tes_soal_jawaban`,`cbt_tes`,cbt_user, cbt_soal where soal_id = '.$tes_soal_id.' and tessoal_id = tessoal_soal_id and tes_id = '.$tes_id.' ');
+        // return $this->db->get();
+
+        $this->db->select('tessoal_tesuser_id, COUNT("tessoal_tesuser_id") AS jumlah_benar, tessoal_nilai, COUNT("tessoal_nilai") AS jumlah_jawaban_benar')
+                 ->where('tessoal_soal_id="'.$tes_soal_id.'" AND tes_id = '.$tes_id.'')
+                 ->join('cbt_soal', 'cbt_tes_soal.tessoal_soal_id = cbt_soal.soal_id')
+                 ->join('cbt_tes_user', 'cbt_tes_soal.tessoal_tesuser_id = cbt_tes_user.tesuser_id')
+                 ->join('cbt_tes', 'cbt_tes_user.tesuser_tes_id = cbt_tes.tes_id')
+                 ->from($this->table)
+                 ->limit($limit);
+        return $this->db->get();
+    }
 	
 	function get_by_kolom_limit($kolom, $isi, $limit){
         $this->db->where($kolom, $isi)
@@ -103,6 +133,8 @@ class Cbt_tes_soal_model extends CI_Model{
 				 ->limit($limit);
         return $this->db->get();
     }
+
+
 
     function get_nilai($tesuser_id){            
         $sql = 'SELECT tessoal_nilai AS nilai_perbutir, SUM(tessoal_nilai) AS hasil, COUNT(CASE  WHEN tessoal_nilai=0 THEN 1 END) AS jawaban_salah, COUNT(*) AS total_soal FROM cbt_tes_soal WHERE tessoal_tesuser_id="'.$tesuser_id.'"';
