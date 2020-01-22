@@ -148,7 +148,14 @@ class Cbt_tes_soal_model extends CI_Model{
 				 ->limit($limit);
         return $this->db->get();
     }
-
+    
+	// function get_by_kolom_tessoal($kolom, $isi, $limit){
+    //     $this->db->where('tesuser_user_id' = $isi)
+    //              ->join('cbt_tes_user', 'cbt_tes_soal.tessoal_tesuser_id = cbt_tes_user.tesuser_id')
+    //              ->from($this->table)
+	// 			//  ->limit($limit);
+    //     return $this->db->get();
+    // }
 
 
     function get_nilai($tesuser_id){            

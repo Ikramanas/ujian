@@ -211,42 +211,61 @@ class Tes_kerjakan extends Tes_Controller {
                             $jumlah_peserta_benar= $this->cbt_tes_user_model->get_by_soalBenar_id($tessoal_soal_id->soal_id, $tes_id)->row();
     
     
-                            $persentage = ($jumlah_total_peserta->total_peserta / $jumlah_peserta_benar->jumlah_benar) * 100 ;
+                            $persentage = ($jumlah_peserta_benar->jumlah_benar / $jumlah_total_peserta->total_peserta ) * 100 ;
 
                         
                             $jawaban_perbutir = 0;
-                
-                            if ($persentage < 10) {
-                                $jawaban_perbutir = 54.00;
-                            }
-                            if ($persentage < 20) {
-                                $jawaban_perbutir = 48.00;
-                            }
-                            if ($persentage <30) {
-                                $jawaban_perbutir = 42.00;
-                            }
-                            if ($persentage < 40) {
-                                $jawaban_perbutir = 36.00;
-                            }
-                            if ($persentage < 50) {
-                                $jawaban_perbutir = 30.00;
-                            }
-                            if ($persentage < 60) {
-                                $jawaban_perbutir = 24.00;
-                            }
-                            if ($persentage < 70) {
-                                $jawaban_perbutir = 18.00;
-                            }
-                            if ($persentage < 80) {
-                                $jawaban_perbutir = 12.00;
-                            }
-                            if ($persentage < 90) {
-                                $jawaban_perbutir = 6.00;
-                            }
+                            
+                            
+
                             if ($persentage > 90) {
                                 $jawaban_perbutir = 0.00;
                             }
+                            
+                            if ($persentage >= 80) {
+                                $jawaban_perbutir = 6.00;
+                            }
+                            
+                            if ($persentage >= 70) {
+                                $jawaban_perbutir = 12.00;
+                                
+                            }
+                            
+                            if ($persentage >= 60) {
+                                $jawaban_perbutir = 18.00;
+                                
+                            }
+                            
+                            if ($persentage >= 50) {
+                                $jawaban_perbutir = 24.00;
+                                
+                            }
+                            
+                            if ($persentage >= 40) {
+                                $jawaban_perbutir = 30.00;
+                                
+                            }
+                            
+                            if ($persentage >= 30) {
+                                $jawaban_perbutir = 36.00;
+                                
+                            }
 
+                            if ($persentage >=20) {
+                                $jawaban_perbutir = 42.00;
+                                
+                            }
+                            
+                            if ($persentage >= 10) {
+                                $jawaban_perbutir = 48.00;
+                                
+                            }
+                            
+                            if ($persentage < 10) {
+                                $jawaban_perbutir = 54.00;
+                            }
+
+                            
                             $data_tes_soal['tessoal_nilai'] =  $query_tes->tes_score_right;
                             $data_tes_soal['tessoal_bonus'] =  $query_tes->tes_score_right + $jawaban_perbutir;
                         }else{

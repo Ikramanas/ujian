@@ -34,6 +34,7 @@ class Tes_hasil_detail extends Tes_Controller {
 
         		$query_test = $this->cbt_tes_model->get_by_kolom_limit('tes_id', $query_testuser->tesuser_tes_id, 1)->row();
         		$query_user = $this->cbt_user_model->get_by_kolom_limit('user_id', $query_testuser->tesuser_user_id, 1)->row();
+        		// $query_bonus = $this->cbt_tes_soal_model->get_by_kolom_tessoal('tessoal_bonus', $query_testuser->tesuser_user_id, 1)->row();
 
         		$data['tes_user_id'] = $tesuser_id;
         		$data['tes_nama'] = $query_test->tes_nama;
@@ -41,7 +42,7 @@ class Tes_hasil_detail extends Tes_Controller {
         		$data['user_nama'] = $query_user->user_firstname;
 
         		$nilai = $this->cbt_tes_soal_model->get_nilai($tesuser_id)->row();
-        		$data['nilai'] = $nilai->hasil.'  /  '.$query_test->tes_max_score.'  (nilai / nilai maksimal) ';
+        		$data['nilai'] = $nilai->hasil.'  / '.null.' /  '.$query_test->tes_max_score.'  (nilai / nilai maksimal) ';
 
         		$data['benar'] = ($nilai->total_soal-$nilai->jawaban_salah).'  /  '.$nilai->total_soal.'  (jawaban benar / total soal)';
 
